@@ -1,0 +1,17 @@
+{
+  "hotkey": "ctrl+alt+m",
+  "quick_apps": [
+    {
+      "name": "Buka Chrome",
+      "path": "chrome"
+    },
+    {
+      "name": "Folder Proyek",
+      "path": "explorer D:\\Projects"
+    },
+    {
+      "name": "VS Code",
+      "path": "code"
+    }
+  ]
+}
