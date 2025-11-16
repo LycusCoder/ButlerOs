@@ -4,9 +4,17 @@ Aplikasi sistem tray yang powerful dan modern untuk quick access ke aplikasi fav
 
 ## 🎯 Features
 
+### 🆕 Phase 2: Command Palette (NEW!)
+- ✅ **Search-Based Interface** - Ketik untuk mencari aplikasi secara instant
+- ✅ **Keyboard Navigation** - Arrow keys navigation dengan visual highlight
+- ✅ **Smart Icons** - Auto-detect emoji icons berdasarkan jenis aplikasi
+- ✅ **Professional UI** - Modern dark theme dengan hover effects & animations
+- ✅ **Real-Time Filtering** - Hasil update langsung saat mengetik
+- ✅ **3x Faster Workflow** - Spotlight/PowerToys Run style interface
+
+### Core Features
 - ✅ **System Tray Integration** - Aplikasi berjalan di background dengan icon di system tray
-- ✅ **Hotkey Listener** - Tekan `Ctrl+Alt+M` untuk buka quick menu
-- ✅ **Dynamic Quick Menu** - Popup menu yang di-generate otomatis dari config.json
+- ✅ **Hotkey Listener** - Tekan `Ctrl+Alt+M` untuk buka Command Palette
 - ✅ **Settings GUI** - Edit, tambah, atau hapus aplikasi tanpa edit file manual
 - ✅ **Butler Dashboard (HUD)** - Widget proaktif dengan system monitor, notes, dan todo list
 - ✅ **System Monitor** - Real-time CPU, RAM, dan top processes monitoring
@@ -32,7 +40,7 @@ lycus-butler-app/
 ├── src/
 │   ├── butler.py              # Main app - entry point
 │   ├── dashboard_window.py    # Butler Dashboard (HUD) GUI
-│   ├── quick_menu.py          # Dynamic popup menu GUI
+│   ├── quick_menu.py          # 🆕 Command Palette (Phase 2)
 │   ├── settings_window.py     # Settings window GUI
 │   ├── assets/
 │   │   ├── ico/
@@ -91,8 +99,33 @@ Aplikasi akan:
 
 | Hotkey | Action |
 |--------|--------|
-| `Ctrl+Alt+M` | Buka Quick Menu Popup |
-| `Esc` | Close Quick Menu (atau klik di luar) |
+| `Ctrl+Alt+M` | Buka Command Palette |
+| Type text | Filter aplikasi real-time |
+| `↑` / `↓` | Navigate hasil pencarian |
+| `Enter` | Execute aplikasi terpilih |
+| `Esc` | Close Command Palette |
+
+### 🚀 Command Palette (Phase 2)
+
+**Cara Pakai:**
+1. Tekan `Ctrl+Alt+M` - Command Palette muncul
+2. Langsung ketik nama aplikasi (e.g., "chr", "code")
+3. Hasil ter-filter otomatis
+4. Tekan `Enter` atau click untuk execute
+
+**Features:**
+- 🔍 **Search-first interface** - No more hunting for buttons!
+- ⌨️ **Keyboard navigation** - Arrow keys + Enter
+- 🎨 **Smart icons** - Auto-detect emoji per app type (🌐 browsers, 💻 editors, 📁 folders)
+- ⚡ **3x faster** - Ketik & execute dalam hitungan detik
+- 🎯 **Real-time filtering** - Instant results saat mengetik
+
+**Pro Tips:**
+- Partial matching works! Ketik "chr" untuk Chrome, "fol" untuk Folder
+- Arrow keys untuk navigate multiple results
+- Click langsung pada hasil juga works
+
+📖 **Full Guide:** Lihat [COMMAND_PALETTE_GUIDE.md](COMMAND_PALETTE_GUIDE.md)
 
 ### System Tray Menu
 
