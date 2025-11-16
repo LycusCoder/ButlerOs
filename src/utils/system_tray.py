@@ -17,6 +17,7 @@ class SystemTray:
             self.image,
             "Lycus Butler",
             menu=Menu(
+                MenuItem("Toggle Dashboard", self.toggle_dashboard),
                 MenuItem("Settings", self.open_settings),
                 MenuItem("Exit", self.exit_app)
             )
@@ -28,6 +29,12 @@ class SystemTray:
     def setup(self, icon):
         icon.visible = True
         print("System Tray aktif!")
+
+    def toggle_dashboard(self, icon):
+        """Toggle dashboard visibility"""
+        print("Toggle dashboard...")
+        if hasattr(self.app, 'toggle_dashboard'):
+            self.app.toggle_dashboard()
 
     def open_settings(self, icon):
         print("Membuka settings...")

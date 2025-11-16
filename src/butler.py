@@ -11,6 +11,7 @@ class ButlerApp:
     def __init__(self):
         self.current_quick_menu = None
         self.current_settings = None
+        self.current_dashboard = None
         self.listener_thread = None
         self.tray_thread = None
         self.root = None
@@ -32,6 +33,23 @@ class ButlerApp:
                 self.current_quick_menu = QuickMenu(self.root)
         except Exception as e:
             print(f"Error membuka menu: {e}")
+
+    def toggle_dashboard(self):
+        """Toggle dashboard visibility"""
+        print("Toggle dashboard...")
+        try:
+            if self.current_dashboard is None or not self.current_dashboard.winfo_exists():
+                # Import here to avoid circular dependency
+                from dashboard_window import DashboardWindow
+                self.current_dashboard = DashboardWindow(self.root)
+                print("Dashboard dibuka!")
+            else:
+                # If exists, close it
+                self.current_dashboard.destroy()
+                self.current_dashboard = None
+                print("Dashboard ditutup!")
+        except Exception as e:
+            print(f"Error toggle dashboard: {e}")
 
     def start_listener(self):
         hotkey = self.load_hotkey()

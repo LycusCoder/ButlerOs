@@ -1,0 +1,22 @@
+{
+  "todos": [
+    {
+      "task": "Welcome to Butler Dashboard!",
+      "done": false,
+      "start_time": "2025-01-15 10:00",
+      "deadline": "2025-01-20 18:00"
+    },
+    {
+      "task": "Customize your dashboard",
+      "done": false,
+      "start_time": "2025-01-15 11:00",
+      "deadline": "2025-01-22 17:00"
+    },
+    {
+      "task": "Add your first quick app",
+      "done": true,
+      "start_time": "2025-01-14 09:00",
+      "deadline": "2025-01-15 12:00"
+    }
+  ]
+}

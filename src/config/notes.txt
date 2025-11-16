@@ -1,0 +1,12 @@
+📝 Welcome to Butler Quick Notes!
+
+This is your personal notepad that auto-saves every keystroke.
+
+Ideas for Butler enhancements:
+- Add more quick apps
+- Customize hotkeys
+- Create custom themes
+
+Your notes are automatically saved to config/notes.txt
+
+Start typing below...
