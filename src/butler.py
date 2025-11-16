@@ -27,6 +27,15 @@ class ButlerApp:
             return config.get("hotkey", "ctrl+alt+m")
         except FileNotFoundError:
             return "ctrl+alt+m"
+    
+    def load_sidebar_hotkey(self):
+        config_path = os.path.join(os.path.dirname(__file__), "config", "config.json")
+        try:
+            with open(config_path, "r") as f:
+                config = json.load(f)
+            return config.get("sidebar_hotkey", "ctrl+alt+s")
+        except FileNotFoundError:
+            return "ctrl+alt+s"
 
     def show_quick_menu(self):
         print("Hotkey terdeteksi! Membuka menu...")
@@ -73,14 +82,16 @@ class ButlerApp:
         self.sidebar_state = "animating_in"
         
         try:
-            # Create overlay
+            # Create overlay FIRST (so it renders beneath sidebar)
             self.create_overlay()
+            self.root.update()  # Force overlay to render
             
-            # Create sidebar
+            # THEN create sidebar (on top of overlay)
             from sidebar_window import SidebarWindow
             self.current_sidebar = SidebarWindow(self.root, on_close_callback=self.hide_sidebar)
+            self.root.update()  # Force sidebar to render
             
-            # Slide in
+            # Now animate both together
             self.current_sidebar.slide_in(duration_ms=300)
             
             self.sidebar_state = "open"
@@ -121,32 +132,55 @@ class ButlerApp:
             print(f"[BUTLER] Error destroying sidebar: {e}")
     
     def create_overlay(self):
-        """Create dimming overlay"""
+        """Create dimming overlay with optimized rendering"""
         try:
             self.current_overlay = ctk.CTkToplevel(self.root)
-            self.current_overlay.attributes("-topmost", True)
+            self.current_overlay.attributes("-topmost", False)  # Overlay BELOW sidebar
             
             screen_width = self.root.winfo_screenwidth()
             screen_height = self.root.winfo_screenheight()
             
             self.current_overlay.geometry(f"{screen_width}x{screen_height}+0+0")
             self.current_overlay.configure(fg_color=("#000000", "#000000"))
-            self.current_overlay.attributes("-alpha", 0.3)
+            self.current_overlay.attributes("-alpha", 0.0)  # Start transparent
             
-            # Click overlay to close
+            # Bind events
             self.current_overlay.bind("<Button-1>", lambda e: self.toggle_sidebar())
             self.current_overlay.bind("<Escape>", lambda e: self.toggle_sidebar())
             
-            print("[BUTLER] Overlay created")
+            # Fade in overlay gradually during sidebar slide
+            self.fade_overlay_in(duration_ms=300)
+            
+            print("[BUTLER] Overlay created (optimized)")
         except Exception as e:
             print(f"[BUTLER] Error creating overlay: {e}")
+    
+    def fade_overlay_in(self, duration_ms=300):
+        """Fade overlay in during sidebar animation"""
+        steps = 30
+        step_duration = duration_ms // steps
+        target_alpha = 0.3
+        
+        def fade():
+            try:
+                current_alpha = float(self.current_overlay.attributes("-alpha"))
+                if current_alpha < target_alpha:
+                    new_alpha = min(current_alpha + (target_alpha / steps), target_alpha)
+                    self.current_overlay.attributes("-alpha", new_alpha)
+                    self.root.after(step_duration, fade)
+            except Exception:
+                pass
+        
+        fade()
 
     def start_listener(self):
         hotkey = self.load_hotkey()
+        sidebar_hotkey = self.load_sidebar_hotkey()
         print(f"[LISTENER] Hotkey untuk menu: {hotkey}")
+        print(f"[LISTENER] Hotkey untuk sidebar: {sidebar_hotkey}")
         keyboard.add_hotkey(hotkey, self.show_quick_menu)
-        keyboard.add_hotkey("win+s", self.toggle_sidebar)
-        print("[LISTENER] Hotkey Win+S untuk sidebar aktif!")
+        keyboard.add_hotkey(sidebar_hotkey, self.toggle_sidebar)
+        print("[LISTENER] Semua hotkey aktif!")
         keyboard.wait()
 
     def start_tray(self):

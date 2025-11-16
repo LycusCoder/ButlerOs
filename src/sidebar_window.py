@@ -31,6 +31,9 @@ class SidebarWindow(ctk.CTkToplevel):
         self.attributes("-topmost", True)
         self.attributes("-toolwindow", False)
         
+        # Make window visible
+        self.deiconify()
+        
         # State variables
         self.is_dark_mode = True
         self.monitoring_active = True
@@ -472,47 +475,57 @@ class SidebarWindow(ctk.CTkToplevel):
             pass
         
     def slide_in(self, duration_ms=300):
-        """Animate slide in from right"""
+        """Animate slide in from right - optimized for smooth motion"""
         if self.is_animating or self.is_visible:
+            print(f"[SIDEBAR] Cannot slide in - is_animating={self.is_animating}, is_visible={self.is_visible}")
             return
         self.is_animating = True
         self.is_visible = True
+        print(f"[SIDEBAR] Starting slide-in animation (duration={duration_ms}ms)")
         
-        steps = 20
-        step_duration = duration_ms // steps
+        steps = 40  # More steps = smoother animation
+        step_duration = max(10, duration_ms // steps)  # Min 10ms between frames
         target_x = self.screen_width - self.sidebar_width
         current_x = self.screen_width
         step = (target_x - current_x) / steps
+        frame_count = 0
         
         def animate():
-            nonlocal current_x
+            nonlocal current_x, frame_count
             current_x += step
-            if current_x <= target_x:
+            frame_count += 1
+            
+            if frame_count < steps:
                 self.geometry(f"{self.sidebar_width}x{self.screen_height}+{int(current_x)}+0")
                 self.after(step_duration, animate)
             else:
+                # Final position
                 self.geometry(f"{self.sidebar_width}x{self.screen_height}+{target_x}+0")
                 self.is_animating = False
+                print("[SIDEBAR] Slide-in animation complete!")
                 
         animate()
         
     def slide_out(self, duration_ms=300):
-        """Animate slide out to right"""
+        """Animate slide out to right - optimized for smooth motion"""
         if self.is_animating or not self.is_visible:
             return
         self.is_animating = True
         self.is_visible = False
         
-        steps = 20
-        step_duration = duration_ms // steps
+        steps = 40  # More steps = smoother animation
+        step_duration = max(10, duration_ms // steps)  # Min 10ms between frames
         target_x = self.screen_width
         current_x = self.screen_width - self.sidebar_width
         step = (target_x - current_x) / steps
+        frame_count = 0
         
         def animate():
-            nonlocal current_x
+            nonlocal current_x, frame_count
             current_x += step
-            if current_x < target_x:
+            frame_count += 1
+            
+            if frame_count < steps:
                 self.geometry(f"{self.sidebar_width}x{self.screen_height}+{int(current_x)}+0")
                 self.after(step_duration, animate)
             else:

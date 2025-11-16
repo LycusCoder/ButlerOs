@@ -1,5 +1,6 @@
 {
   "hotkey": "ctrl+alt+m",
+  "sidebar_hotkey": "ctrl+alt+s",
   "quick_apps": [
     {
       "name": "Buka Chrome",
