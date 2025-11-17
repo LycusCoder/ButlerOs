@@ -188,7 +188,7 @@ class ButlerApp:
         tray.start()
 
     def run(self):
-        print("🚀 Lycus Butler App sedang berjalan...")
+        print("Lycus Butler App sedang berjalan...")
         
         # Bikin root window (hidden)
         self.root = ctk.CTk()
@@ -206,6 +206,11 @@ class ButlerApp:
         # Jalankan root mainloop di thread utama
         # Ini biar GUI bisa responsif
         self.root.mainloop()
+
+    def shutdown(self):
+        """Gracefully shutdown the application."""
+        print("[BUTLER] Shutting down...")
+        self.root.destroy()
 
 if __name__ == "__main__":
     app = ButlerApp()

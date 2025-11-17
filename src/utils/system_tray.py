@@ -44,4 +44,6 @@ class SystemTray:
     def exit_app(self, icon):
         print("Keluar dari aplikasi...")
         icon.stop()
-        sys.exit()
+        # Panggil metode shutdown di ButlerApp untuk keluar secara bersih
+        if hasattr(self.app, 'shutdown'):
+            self.app.shutdown()
